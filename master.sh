@@ -41,7 +41,7 @@ ifconfig em0 $MASTERLAN netmask 255.255.255.0
 echo "inet $MASTERLAN 255.255.255.0 NONE" > /etc/hostname.em0
 
 ## Configuracao WAN MASTER
-ifconfig em2 $MASTERWAN net mask 255.255.255.0
+ifconfig em2 $MASTERWAN netmask 255.255.255.0
 echo "inet $MASTERWAN 255.255.255.0 NONE" > /etc/hostname.em2
 
 ## Configuracao PFSYNC
@@ -59,7 +59,7 @@ echo "inet $SHAREDLAN 255.255.255.0 $SHAREDLANBC vhid 1 carpdev em0 pass senhala
 ## Configuracao CARP WAN
 ifconfig carp2 create
 ifconfig carp2 vhid 2 carpdev em2 pass senhawan advskew 100 state master $SHAREDWAN 255.255.255.0
-echo "inet $SHAREDWAN 255.255.255.0 $SHAREDWANBC vhid 2 carpdev em2 pass senhawan adskew 100 state master" > /etc/hostname.carp2
+echo "inet $SHAREDWAN 255.255.255.0 $SHAREDWANBC vhid 2 carpdev em2 pass senhawan advskew 100 state master" > /etc/hostname.carp2
 
 #Liga todas interfaces
 ifconfig em0 up
