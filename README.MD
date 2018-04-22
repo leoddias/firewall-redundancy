@@ -16,7 +16,7 @@ Temos então a primeira maquina virtual que utiliza o OPENBSD:
 
 "em1" responsável por pfsync:			  	10.10.10.1
 
-"em2" responsável por se comunicar com a WAN/INTERNET:  192.168.1.201
+"em2" responsável por se comunicar com a WAN/INTERNET:  192.168.10.201
 
 ## Interfaces de rede OpenBSD Slave 1:
 
@@ -24,12 +24,14 @@ Temos então a primeira maquina virtual que utiliza o OPENBSD:
 
 "em1" responsável por pfsync:			  	10.10.10.2
 
-"em2" responsável por se comunicar com a WAN/INTERNET:  192.168.1.202
+"em2" responsável por se comunicar com a WAN/INTERNET:  192.168.10.202
 
 
 Estes firewalls compartilharam o endereço 192.168.100.100 na rede local, para fazer o failover atraves do protocolo CARP, portanto este será o endereço que a rede local enchergará como gateway padrão.
 
-Já do lado da WAN/Internet será compartilhado o endereço 192.168.1.250;
+Já do lado da WAN/Internet será compartilhado o endereço 192.168.10.250;
+
+Tambem foi inserido um WebServer que responde pelo IP 192.168.100.110 o qual fica dentro da rede.
 
 Regras de firewall:
 
@@ -44,6 +46,12 @@ pass on em1 proto pfsync
 pass out on em2 inet from em0:network to any nat-to (em2)
 ```
 
+## Port Forwading
+```
+pass in on egress proto tcp from any to any port 80 rdr-to 192.168.100.110
+```
+
+
 ## Dificuldades:
 
 Descobrir que o preempt nao estava sendo habilitado durante o boot, o que não fazia o computador master reassumir.
@@ -57,5 +65,5 @@ pkg_add wget
 ```
 Feito isso temos a ferramenta wget disponivel para uso, portanto
 ```
-wget http://dontpad.com/scriptmaster
+wget http://webserver/scriptMaster.txt
 ```
